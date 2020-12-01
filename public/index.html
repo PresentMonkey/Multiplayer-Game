@@ -9,9 +9,21 @@
       }
     </style>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/public/index.css">
   </head>
   <body>
-    <canvas id="canvas"></canvas>
+    <div id="gameCanvas" tabindex="0">
+        <canvas id="canvas"></canvas>
+    </div>
+    <br>
+    <div id="usernameInput">
+        <form>
+            <label>UserName</label>
+            <input type="text" id="usernameInputForm" name="usernameInputForm">
+            <button type="button" id="usernameInputButton" name="usernameInputButton">OK</button>
+        </form>
+    </div>
+    
   </body>
   <script src="/public/game.js"></script>
 </html>

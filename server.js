@@ -28,10 +28,6 @@ io.on('connection', function(socket){
   });
 });
 
-setInterval(function() {
-  io.sockets.emit('message', 'hi!');
-}, 1000);
-
 
 var players = {};
 
@@ -39,8 +35,12 @@ io.on('connection', function(socket){
   socket.on('new player', function(){
     players[socket.id] = {
       x: 300,
-      y: 300
+      y: 300,
+      username: " " //placeholder for it to not show undefined
     };
+  });
+  socket.on('username', function(data){
+      players[socket.id].username = data;
   });
   socket.on('disconnect', function(){
     delete players[socket.id];

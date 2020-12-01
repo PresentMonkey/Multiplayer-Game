@@ -12,13 +12,15 @@ setInterval(function(){
     socket.emit('movement', movement);
 }, 1000/60);
 
+
+
 var movement = {
     up: false,
     down: false,
     left: false,
     right: false
 }
-document.addEventListener('keydown', function(event){
+document.getElementById("gameCanvas").addEventListener('keydown', function(event){
     switch(event.keyCode){
         case 65: //A
             movement.left = true;
@@ -33,8 +35,8 @@ document.addEventListener('keydown', function(event){
             movement.down = true;
             break;
     }
-});
-document.addEventListener('keyup', function(event){
+}, true);
+document.getElementById("gameCanvas").addEventListener('keyup', function(event){
     switch(event.keyCode){
         case 65: //A
             movement.left = false;
@@ -62,8 +64,21 @@ socket.on('state', function(players) {
   context.fillStyle = 'green';
   for (var id in players) {
     var player = players[id];
+    context.font = "20px Arial";
     context.beginPath();
     context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
     context.fill();
+    context.fillText(player.username , player.x + 20, player.y);
   }
 });
+
+
+document.getElementById("usernameInputButton").addEventListener("click", function(){
+    var username = document.getElementById("usernameInputForm").value;
+    socket.emit('username', username);
+});
+document.getElementById("usernameInputForm").addEventListener('submit', function(){
+    var username = document.getElementById("usernameInputForm").value;
+    socket.emit('username', username);
+});
+
