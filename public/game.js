@@ -70,12 +70,14 @@ socket.on('state', function(players) {
   context.fillStyle = 'black';
   for (var id in players) {
     var player = players[id];
-    context.font = "20px Arial";
+    var imageradius = 16;
+    context.font = "10px Arial";
+    context.textAlign = "center";
+    context.fillText(player.username, player.x, player.y + imageradius + 10);
+    context.drawImage(img, player.x - imageradius, player.y - imageradius);
     //context.beginPath();
-    //context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+    //context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
     //context.fill();
-    context.drawImage(img, player.x, player.y);
-    context.fillText(player.username , player.x + 20, player.y);
   }
 });
 
@@ -88,4 +90,3 @@ document.getElementById("usernameInputForm").addEventListener('submit', function
     var username = document.getElementById("usernameInputForm").value;
     socket.emit('username', username);
 });
-

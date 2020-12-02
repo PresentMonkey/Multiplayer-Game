@@ -34,9 +34,9 @@ var players = {};
 io.on('connection', function(socket){
   socket.on('new player', function(){
     players[socket.id] = {
-      x: 300,
+      x: 400,
       y: 300,
-      username: " " //placeholder for it to not show undefined
+      username: " ", //placeholder for it to not show undefined
     };
   });
   socket.on('username', function(data){
@@ -47,18 +47,21 @@ io.on('connection', function(socket){
   });
   socket.on('movement', function(data) {
     var player = players[socket.id] || {};
-    if (data.left) {
+    var imageradius = 16;
+    if (data.left && player.x > 0 + imageradius) {
       player.x -= 5;
     }
-    if (data.up) {
+    if (data.up && player.y > 0 + imageradius) {
       player.y -= 5;
     }
-    if (data.right) {
+    if (data.right && player.x < 800 - imageradius) {
       player.x += 5;
     }
-    if (data.down) {
+    if (data.down && player.y < 600 - imageradius) {
       player.y += 5;
     }
+
+    
   });
 });
 
@@ -66,5 +69,3 @@ io.on('connection', function(socket){
 setInterval(function(){
   io.sockets.emit('state', players);
 }, 1000/60);
-
-
