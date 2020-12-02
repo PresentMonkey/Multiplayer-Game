@@ -1,8 +1,4 @@
 //proload images
-var img = new Image();
-img.src = "/public/assets/pfp1.png";
-
-
 var socket = io();
 
 socket.emit('new player'); //on new connection send a new player "ping" to server
@@ -57,7 +53,7 @@ var canvas = document.getElementById('canvas');
 canvas.width = 800; //set how big it should be
 canvas.height = 600;
 var context = canvas.getContext('2d');
-socket.on('state', function(players) { //Run everytime a state object is recived from server
+socket.on('state', function(players) { //Run everytime a state object is recived from serverdd
   context.clearRect(0, 0, 800, 600); //Clear canvas
   context.fillStyle = 'black';
   for (var id in players) { //Move through every player object in players object
@@ -66,7 +62,8 @@ socket.on('state', function(players) { //Run everytime a state object is recived
     context.font = "10px Arial";
     context.textAlign = "center";
     context.fillText(player.username, player.x, player.y + imageradius + 10); //Draws username
-    context.drawImage(img, player.x - imageradius, player.y - imageradius); //Draws image
+    
+    context.drawImage(player.avatar, player.x - imageradius, player.y - imageradius); //Draws image
     //context.beginPath();  //Legacy code to draw dot instead of image
     //context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
     //context.fill();

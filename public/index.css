@@ -10,4 +10,13 @@
     width: 800px;
     height: 600px;
     border: 5px solid black;
+    background-image:url('assets/background.jpg');
+}
+
+#usernameInput{
+  text-align: center;
+}
+
+#textinstructions{
+  text-align: center;
 }

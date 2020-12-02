@@ -12,6 +12,9 @@ const io = socketIO(server);
 
 const port = 3000; //port we will listen on
 
+var img1 = new Image();
+img1.src = "/public/assets/alien.png";
+
 app.set('port', port);
 app.use('/public', express.static(__dirname + '/public'));  //set static route for all requests to public (needed for files inside public folder to be accessible)
 
@@ -32,6 +35,7 @@ io.on('connection', function(socket){
       x: 400,
       y: 300,
       username: " ", //placeholder for it to not show undefined
+      avatar: 1;
     };
   });
   socket.on('username', function(data){ //On username websocket sent add thier username to their player object
@@ -43,17 +47,18 @@ io.on('connection', function(socket){
   socket.on('movement', function(data) { //function to handle player movement
     var player = players[socket.id] || {}; //Don't know what this does??
     var imageradius = 16; //Move this to a better location later?
+    var playerspeed = 2;
     if (data.left && player.x > 0 + imageradius) { 
-      player.x -= 5;
+      player.x -= playerspeed;
     }
     if (data.up && player.y > 0 + imageradius) {
-      player.y -= 5;
+      player.y -= playerspeed;
     }
     if (data.right && player.x < 800 - imageradius) {
-      player.x += 5;
+      player.x += playerspeed;
     }
     if (data.down && player.y < 600 - imageradius) {
-      player.y += 5;
+      player.y += playerspeed;
     }
 
     
