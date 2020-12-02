@@ -67,4 +67,4 @@ setInterval(function(){
   io.sockets.emit('state', players);
 }, 1000/60);
 
-//app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist'));
+
