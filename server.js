@@ -34,8 +34,16 @@ io.on('connection', function(socket){
       username: " ", //placeholder for it to not show undefined
     };
   });
-  socket.on('username', function(data){ //On username websocket sent add thier username to their player object
+  socket.on('username', (data, callback)=> { //On username websocket sent add thier username to their player object
+    if(data.length > 9){
+      callback({status: "too long"});
+    }
+    else{
       players[socket.id].username = data;
+      callback({status: 'ok'});
+    }
+      
+      
   });
   socket.on('disconnect', function(){ //Delete specific player's object on disconnect (maybe save to database (mongodb?) later??, needed right now for their circle to disappear)
     delete players[socket.id];

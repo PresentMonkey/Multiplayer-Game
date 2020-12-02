@@ -11,7 +11,6 @@ setInterval(function(){ //60 times a second send movement requests to server
 }, 1000/60);
 
 
-
 var movement = { //object to hold movement requests
     up: false,
     down: false,
@@ -76,5 +75,11 @@ socket.on('state', function(players) { //Run everytime a state object is recived
 
 document.getElementById("usernameInputButton").addEventListener("click", function(){ //When username submit button is pressed send username to server: bug to fix: make enter on form work as well
     var username = document.getElementById("usernameInputForm").value; //read form value
-    socket.emit('username', username);
+    socket.emit('username', username, (response)=>{
+        if(response.status == "too long"){
+            alert("Username too long");
+        }
+
+    });
 });
+
