@@ -1,3 +1,9 @@
+//load images
+var img = new Image();
+img.src = "/public/assets/pfp1.png";
+
+
+
 var socket = io();
 socket.on('message', function(data) {
   console.log(data);
@@ -65,10 +71,10 @@ socket.on('state', function(players) {
   for (var id in players) {
     var player = players[id];
     context.font = "20px Arial";
-    context.beginPath();
-    context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
-    context.fill();
-    context.drawImage("assets/pfp1.png", player.x, player.y);
+    //context.beginPath();
+    //context.arc(player.x, player.y, 10, 0, 2 * Math.PI);
+    //context.fill();
+    context.drawImage(img, player.x, player.y);
     context.fillText(player.username , player.x + 20, player.y);
   }
 });
