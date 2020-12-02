@@ -13,7 +13,7 @@ const io = socketIO(server);
 const port = 3000; //port we will listen on
 
 app.set('port', port);
-app.use('/public', express.static(__dirname + '/public'));  //set static route for all requests to public (needed for filed inside public be accessible)
+app.use('/public', express.static(__dirname + '/public'));  //set static route for all requests to public (needed for files inside public folder to be accessible)
 
 
 app.get('/', (req, res) => { //Sends index.html on page load
