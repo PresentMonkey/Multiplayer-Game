@@ -1,19 +1,12 @@
-import {Game} from "./game.js";
-
-
-
-//proload images
-//var img = new Image();
-//img.src = "/public/assets/pfp1.png";
+import {Game} from "./modules/game.js";
+import {docHandler} from "./modules/docHandler.js"
 
 
 var socket = io();
-
 socket.emit('new player'); //on new connection send a new player "ping" to server
 
-
-
-var game = new Game(socket, document.getElementById('canvas'), 600, 800, "/public/assets/pfp1.png", 16);
+var game = new Game(socket, document.getElementById('canvas'), 600, 800, "/public/assets/images/imageData.json", 16);
+var docsHandler = new docHandler(socket);
 
 
 var movement = { //object to hold movement requests
@@ -63,14 +56,4 @@ document.getElementById("gameCanvas").addEventListener('keyup', function(event){
 
 
 game.update();
-
-document.getElementById("usernameInputButton").addEventListener("click", function(){ //When username submit button is pressed send username to server: bug to fix: make enter on form work as well
-    var username = document.getElementById("usernameInputForm").value; //read form value
-    socket.emit('username', username, (response)=>{
-        if(response.status == "too long"){
-            alert("Username too long");
-        }
-
-    });
-});
-
+docsHandler.callbackHolder();

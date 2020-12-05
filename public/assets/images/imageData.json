@@ -1,0 +1,17 @@
+{
+    "images":{
+        "billy": {
+            "path": "/public/assets/images/billy.png",
+            "imageObject": null,
+            "imageWidth": "16",
+            "imageHeight": "16"
+        },
+        "berney":{
+            "path": "/public/assets/images/berney.png",
+            "imageObject": null,
+            "imageWidth": "16",
+            "imageHeight": "16"
+        }
+        
+    }
+}
