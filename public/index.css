@@ -1,5 +1,8 @@
-#usernameInput{
+#userInput{
     padding: 10px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 #canvas{
     padding-left: 0;

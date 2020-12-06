@@ -1,6 +1,8 @@
 <html>
   <head>
     <title>A Multiplayer Game</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="/socket.io/socket.io.js"></script>
     <link rel="stylesheet" href="/public/index.css">
   </head>
@@ -15,12 +17,9 @@
             <input type="text" id="usernameInputForm" name="usernameInputForm">
             <button type="button" id="usernameInputButton" name="usernameInputButton">OK</button>
         </form>
-        <form>
+        <form id="avatarInput">
           <label>Choose and avatar</label>
-          <select id="avatarSelect">
-
-
-          </select>
+          <select id="avatarSelect"></select>
           <button type="button" id="avatarSelectSubmit">OK</button>
         </form>
     </div>
