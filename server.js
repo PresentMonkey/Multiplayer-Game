@@ -43,8 +43,6 @@ io.on('connection', function(socket){
       players[socket.id].username = data;
       callback({status: 'ok'});
     }
-      
-      
   });
   socket.on('avatar', (data, callback)=>{
     players[socket.id].avatar = data;

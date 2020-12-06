@@ -9,6 +9,26 @@ var game = new Game(socket, document.getElementById('canvas'), 600, 800, "/publi
 var docsHandler = new docHandler(socket);
 
 
+window.onload = function(){
+    var dropdown = document.getElementById("avatarSelect")
+
+    game.getJSON().then(data =>{
+    for(var avatar in data){
+        let option = document.createElement("option");
+        option.text = avatar;
+        option.value = avatar;
+        dropdown.add(option);
+        }
+    })
+
+
+
+}
+
+
+
+
+
 var movement = { //object to hold movement requests
     up: false,
     down: false,

@@ -13,6 +13,12 @@ export class docHandler{
         
             });
         });
+        document.getElementById("avatarSelectSubmit").addEventListener("click", function(){
+            let avatar = document.getElementById("avatarSelect").value;
+            socket.emit('avatar', avatar, (response) => {
+                //do nothing for now
+            })
+        })
         
     }
 }

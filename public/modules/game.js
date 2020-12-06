@@ -8,138 +8,72 @@ export class Game{
         this.imageRadius = imageRadius;
         this.canvas.height=height;
         this.canvas.width=width;
-        var globalImages;
-        this.globalImages = globalImages;
-       // this.images = {}; //images object to hold images
-        
-/*
-        function getImages(path){
-          var imagesFunc;
-          fetch(path) //get images json file
-          .then(function(response){
-            if(response.status !== 200){
-              console.log('Problem loading charactert json. Status code: ' + response.status);
-              return;
-            }
-            response.json().then(function(data){
-              imagesFunc = data.images;
-              for(var avatarName in imagesFunc){ //create images for each entry in the images json
-                imagesFunc[avatarName].imageObject = new Image();
-                imagesFunc[avatarName].imageObject.src = imagesFunc[avatarName].path;
-              };
-            });
-          }).catch(function(err){
-            console.log('fetch Error: ', err);
-          })
-          return imagesFunc;
-        }
-
-       // this.images = getImages(imagePath);
-
-        */
-
-        
-        
-        //this.img = new Image();
-        //this.img.src = imagePath;
-
-        //load all images (maybe find a better system later?)
-        
-
        
     }
-    loadImages(){
+    async getJSON(){
       let imagePath = this.imagePath;
-      var images;
-      async function fetchImages(){
-        try{
-          let reponse = await fetch(imagePath);
-          if(!reponse.ok){
-            const message = `An error has occured: ${reponse.status}`;
-            throw new Error(message);
-          }
-          var imageJSON = await reponse.json();
-        }
-        finally{
-          images = imageJSON.images;
-          for(let avatarName in images){ //create images for each entry in the images json
-            images[avatarName].imageObject = new Image();
-            images[avatarName].imageObject.src = images[avatarName].path;
-          };
-          return images;
-        }
-        
+      let response = await fetch(imagePath);
+      if(!response.ok){
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      } else{
+        let json = await response.json();
+        let images = json.images
+        return Promise.resolve(images);
       }
-      fetchImages().then(reponse => {
-        globalImages = reponse;
-      })
-
-
-
-
-
-/*
-      function success(response){
-        response.json().then(data => {
-          images = data.images;
-          for(let avatarName in images){ //create images for each entry in the images json
-            images[avatarName].imageObject = new Image();
-            images[avatarName].imageObject.src = images[avatarName].path;
-          };
-          console.log(images);
-        }).then(return function(){
-          console.log(images);
-          return images, true;
-        })
-      }
-      fetch(imagePath)
-        .then(response => {
-          success(response);
-        })
-        .catch(err => {
-          console.log("Image could not be loaded error: " + err);
-        })
-        */
     }
-    
+
+    async loadImages(){
+      let imagePath = this.imagePath;
+      let response = await fetch(imagePath);
+      if(!response.ok){
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      } else{
+        let json = await response.json();
+        let images = json.images
+        for(var avatar in images){
+          images[avatar].imageObject = new Image();
+          images[avatar].imageObject.src = images[avatar].path;
+        }
+        return Promise.resolve(images);
+      }
+
+    }
     update(){
-        var $this = this;
+        var images; 
         var imageIsLoaded;
         var imageRadius = this.imageRadius;
         var context = canvas.getContext('2d');
-        var images; 
-        //console.log(images);
-
-      
-
-        this.loadImages();
-        console.log(globalImages);
-        /*
-        this.loadImages().then(reponse =>{
-          if(reponse){
+        if(!imageIsLoaded){ //only load images if images not already loaded
+          this.loadImages().then(data =>{
             imageIsLoaded = true;
-            images = reponse;
-          }
-        })*/
+            images = data;
+          })
+          .catch(e => {
+            console.log(`error` + e.message);
+          }); 
+        }
         
 
-        if(imageIsLoaded){
           this.socket.on('state', function(players) { //Run everytime a state object is recived from server
-            context.clearRect(0, 0, 800, 600); //Clear canvas
-            context.fillStyle = 'black';
-            for (var id in players) { //Move through every player object in players object
-              var player = players[id];
-              context.font = "10px Arial";
-              context.textAlign = "center";
-              context.fillText(player.username, player.x, player.y + imageRadius + 10); //Draws username
-              context.drawImage(images.billy.imageObject, player.x - imageRadius, player.y - imageRadius); //Draws image
+            if(imageIsLoaded){
+              context.clearRect(0, 0, 800, 600); //Clear canvas
+              context.fillStyle = 'black';
+              for (var id in players) { //Move through every player object in players object
+                var player = players[id];
+                context.font = "10px Arial";
+                context.textAlign = "center";
+                context.fillText(player.username, player.x, player.y + imageRadius + 10); //Draws username
+                context.drawImage(images[player.avatar].imageObject, player.x - imageRadius, player.y - imageRadius); //Draws image
+  
+                //context.beginPath();  //Legacy code to draw dot instead of image
+                //context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
+                //context.fill();
+              }
 
-              //context.beginPath();  //Legacy code to draw dot instead of image
-              //context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
-              //context.fill();
             }
+
           });
-        };
+        
 
     }
     inputHandler(){
