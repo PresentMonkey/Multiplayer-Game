@@ -1,5 +1,8 @@
-#usernameInput{
+#userInput{
     padding: 10px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 #canvas{
     padding-left: 0;
@@ -10,13 +13,4 @@
     width: 800px;
     height: 600px;
     border: 5px solid black;
-    background-image:url('assets/background.jpg');
-}
-
-#usernameInput{
-  text-align: center;
-}
-
-#textinstructions{
-  text-align: center;
 }

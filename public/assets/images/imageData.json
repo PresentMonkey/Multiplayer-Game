@@ -1,0 +1,25 @@
+{
+    "images":{
+        "Alien": {
+            "path": "/public/assets/images/alien.png"
+        },
+        "Bender":{
+            "path": "/public/assets/images/bender.png"
+        },
+        "Demon":{
+            "path": "/public/assets/images/demon.png"
+        },
+        "Max Crab":{
+            "path": "/public/assets/images/maxcrab.png"
+        },
+        "Max":{
+            "path": "/public/assets/images/max.png"
+        },
+        "Berney":{
+            "path": "/public/assets/images/berney.png"
+        },
+        "Squib":{
+            "path": "/public/assets/images/squib.png"
+        }
+    }
+}
