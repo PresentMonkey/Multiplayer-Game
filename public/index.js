@@ -48,7 +48,8 @@ document.getElementById("gameCanvas").addEventListener('keydown', function (even
       movement.down = true;
       break;
     case 69:
-
+      movement.interact = true;
+      break;
   }
 }, true);
 document.getElementById("gameCanvas").addEventListener('keyup', function (event) { //function to handle key unpresses
@@ -65,6 +66,9 @@ document.getElementById("gameCanvas").addEventListener('keyup', function (event)
     case 83: //s
       movement.down = false;
       break;
+    case 69:
+      movement.interact = false;
+      break;  
   }
 });
 

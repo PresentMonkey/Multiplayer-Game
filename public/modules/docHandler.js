@@ -10,14 +10,16 @@ export class docHandler {
         if (response.status == "too long") {
           alert("Username too booty");
         }
-
+        if (username === 'Matt') {
+            alert("If your name is Matt you must be a super cool dude.");
+        }
       });
     });
     document.getElementById("avatarSelectSubmit").addEventListener("click", function () {
       let avatar = document.getElementById("avatarSelect").value;
       socket.emit('avatar', avatar, (response) => {
         if (avatar === "Max") {
-          alert("Max is trash LMAO");
+          alert("YOU CHOSE MATT LMAO. YOU MUST BE GAY!");
         }
         //do nothing for now
       })
