@@ -2,7 +2,7 @@ import { Game } from "./modules/game.js";
 import { docHandler } from "./modules/docHandler.js"
 
 
-var socket = io();
+var socket = io.connect();
 socket.emit('new player'); //on new connection send a new player "ping" to server
 
 var game = new Game(socket, document.getElementById('canvas'), 600, 800, "/public/assets/images/imageData.json", 16);
@@ -50,6 +50,9 @@ document.getElementById("gameCanvas").addEventListener('keydown', function (even
     case 69:
       movement.interact = true;
       break;
+    case 81:
+      movement.tester = true;
+      break; 
   }
 }, true);
 document.getElementById("gameCanvas").addEventListener('keyup', function (event) { //function to handle key unpresses
@@ -69,6 +72,9 @@ document.getElementById("gameCanvas").addEventListener('keyup', function (event)
     case 69:
       movement.interact = false;
       break;  
+    case 81:
+      movement.tester = false;
+      break; 
   }
 });
 

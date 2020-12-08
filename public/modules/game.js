@@ -53,13 +53,17 @@ export class Game {
         });
     }
 
-
-    this.socket.on('state', function (players) { //Run everytime a state object is recived from server
+    /*socket.on('connect', function() {
+      socket.emit('room', worldone);
+    });*/
+    this.socket.on('state', function (playerz) { //Run everytime a state object is recived from server
       if (imageIsLoaded) {
+        console.log(playerz);
         context.clearRect(0, 0, 800, 600); //Clear canvas
         context.fillStyle = 'black';
-        for (var id in players) { //Move through every player object in players object
-          var player = players[id];
+        for (var id in playerz) { //Move through every player object in players object
+          var player = playerz[id];
+          console.log(playerz);
           context.font = "10px Arial";
           context.textAlign = "center";
           context.fillText(player.username, player.x, player.y + imageRadius + 10); //Draws username
@@ -74,6 +78,7 @@ export class Game {
       }
 
     });
+
   }
   inputHandler() {
   }

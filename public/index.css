@@ -10,10 +10,11 @@
     margin-left: auto;
     margin-right: auto;
     display: block;
-    width: 1920px;
-    height: 1080px;
+    width: 1280px;
+    height: 720px;
     border: 5px solid black;
-    background-image: url("assets/images/finalbackground.png");
+    /*background-image: url("assets/images/finalbackground.png");*/
+    background-color: white;
 }
 body {
   background: linear-gradient(rgb(181,255, 174),gray);
