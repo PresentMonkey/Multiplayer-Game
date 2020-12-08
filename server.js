@@ -24,24 +24,24 @@ server.listen(port, function () {
 
 var worldoneplayer = {}; //player object (maybe use redis for this later???)
 var worldtwoplayer = {};
-var worldchange;
+var worldchange = 1;
 
 io.on('connection', function (socket) {
   var p = 0;
-  if (p === 0) {
+  if (p == 0) {
     socket.join('worldone');
     socket.leave('worldtwo');
-    worldchange = 1;
     p += 1
   }
-  function createplayers(worldplayer) {
+  function createplayers(worldplayer, identity) {
+    console.log(worldchange)
     socket.on('new player', function () {
       worldplayer[socket.id] = { //When a new player connects, thier socket id will be used as a player ID and placed in the global player object with some predetermined protoype
         x: 400,
         y: 300,
         username: " ", //placeholder for it to not show undefined
         avatar: "Alien",
-        world: ''
+        world: identity
       };
     });
 
@@ -67,47 +67,56 @@ io.on('connection', function (socket) {
 
       var imageradius = 16; //Move this to a better location later?
 
-      var player = worldplayer[socket.id] || {}; //Don't know what this does??
-      if (data.left && player.x > 0 + imageradius) {
-        player.x -= 3;
-      }
-      if (data.up && player.y > 0 + imageradius) {
-        player.y -= 3;
-      }
-      if (data.right && player.x < 1920 - imageradius) {
-        player.x += 3;
-      }
-      if (data.down && player.y < 1080 - imageradius) {
-        player.y += 3;
-      }
-      player.world = 1;
-      if (data.interact && player.x > 172 && player.x < 226 & player.y > 234 && player.y < 336) { //press e
-        player.world = 2;
-        worldchange = 2;
-        return;
-      }
-
-      if (data.tester && player.x > 490 && player.x < 574 & player.y > 300 && player.y < 400) { //press q
+      if (worldchange === 1) {
+        var player = worldoneplayer[socket.id] || {}; //Don't know what this does??
+        
+        if (data.left && player.x > 0 + imageradius) {
+          player.x -= 3;
+        }
+        if (data.up && player.y > 0 + imageradius) {
+          player.y -= 3;
+        }
+        if (data.right && player.x < 1920 - imageradius) {
+          player.x += 3;
+        }
+        if (data.down && player.y < 1080 - imageradius) {
+          player.y += 3;
+        }
         player.world = 1;
-        worldchange = 1;
-        return;
+        if (data.interact && player.x > 172 && player.x < 226 & player.y > 234 && player.y < 336) { //press e
+          player.world = 2;
+          socket.join('worldtwo');
+          socket.leave('worldone');
+          var worldchange = 2;
+        }
       }
-
+      if (worldchange === 2) {
+        player = worldtwoplayer[socket.id] || {}; //Don't know what this does??
+        if (data.left && player.x > 0 + imageradius) {
+          player.x -= 3;
+        }
+        if (data.up && player.y > 0 + imageradius) {
+          player.y -= 3;
+        }
+        if (data.right && player.x < 1920 - imageradius) {
+          player.x += 3;
+        }
+        if (data.down && player.y < 1080 - imageradius) {
+          player.y += 3;
+        }
+        player.world = 2;
+        if (data.tester && player.x > 490 && player.x < 574 & player.y > 300 && player.y < 400) { //press q
+          player.world = 1;
+          socket.join('worldone');
+          socket.leave('worldtwo');
+          var worldchange = 1;
+        }
+      }
 
     });
   }
-  if (worldchange === 1) {
-    socket.join('worldone');
-    socket.leave('worldtwo');
-    
-    createplayers(worldoneplayer);
-  }
-  if (worldchange === 2) {
-    socket.join('worldtwo');
-    socket.leave('worldone');
-    createplayers(worldtwoplayer);
-  }
-
+  createplayers(worldoneplayer, 1);
+  createplayers(worldtwoplayer, 2);
 });
 setInterval(function () {  //send players every 60sec
   //io.sockets.emit('state', worldoneplayer);
