@@ -60,25 +60,41 @@ export class Game {
       if (imageIsLoaded) {
         console.log(playerz);
         context.clearRect(0, 0, 800, 600); //Clear canvas
+
         context.fillStyle = 'black';
+        
         for (var id in playerz) { //Move through every player object in players object
           var player = playerz[id];
           console.log(playerz);
-          context.font = "10px Arial";
+          console.log('break');
           context.textAlign = "center";
-          context.fillText(player.username, player.x, player.y + imageRadius + 10); //Draws username
+          console.log(player.world);
+          /*
+          if (player.world === 1) {
+            context.font = "10px Arial";
+            context.fillText("Press E", 197, 210);
+            context.font = "20px Arial";
+            context.fillText("WORLD 1", 400, 320);
+          }
+          if (player.world === 2){
+            context.font = "10px Arial";
+            context.fillText("Press Q", 525, 275);
+            context.font = "20px Arial";
+            context.fillText("WORLD 2", 400, 320);
+          }
+          */
+          context.font = "10px Arial";
+          context.fillText(player.username, player.x, player.y + imageRadius + 10);
+          context.fillText(player.world, player.x, player.y + imageRadius + 20); //Draws username
           context.drawImage(images[player.avatar].imageObject, player.x - imageRadius, player.y - imageRadius); //Draws image
 
           //context.beginPath();  //Legacy code to draw dot instead of image
           //context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
+          //context.fillStyle = "#FFFF00";
           //context.fill();
-
         }
-
       }
-
     });
-
   }
   inputHandler() {
   }

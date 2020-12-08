@@ -13,7 +13,7 @@
     width: 1280px;
     height: 720px;
     border: 5px solid black;
-    /*background-image: url("assets/images/finalbackground.png");*/
+    background-image: url("assets/images/fb.png");
     background-color: white;
 }
 body {

@@ -11,16 +11,13 @@ export class docHandler {
           alert("Username too booty");
         }
         if (username === 'Matt') {
-            alert("If your name is Matt you must be a super cool dude.");
+            alert("If your name is Matt you must be a gay dude.");
         }
       });
     });
     document.getElementById("avatarSelectSubmit").addEventListener("click", function () {
       let avatar = document.getElementById("avatarSelect").value;
       socket.emit('avatar', avatar, (response) => {
-        if (avatar === "Max") {
-          alert("YOU CHOSE MATT LMAO. YOU MUST BE GAY!");
-        }
         //do nothing for now
       })
     })
