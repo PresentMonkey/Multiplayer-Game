@@ -24,24 +24,26 @@ server.listen(port, function () {
 
 var worldoneplayer = {}; //player object (maybe use redis for this later???)
 var worldtwoplayer = {};
-var worldchange = 1;
+
 
 io.on('connection', function (socket) {
   var p = 0;
-  if (p == 0) {
+  if (p === 0) {
     socket.join('worldone');
     socket.leave('worldtwo');
+    worldchange = 1;
     p += 1
   }
-  function createplayers(worldplayer, identity) {
-    console.log(worldchange)
+  var worldchange = 1;
+  function createplayers(worldplayer, identifier, startingx, startingy) {
     socket.on('new player', function () {
+
       worldplayer[socket.id] = { //When a new player connects, thier socket id will be used as a player ID and placed in the global player object with some predetermined protoype
-        x: 400,
-        y: 300,
+        x: startingx, //400,
+        y: startingy, //300,
         username: " ", //placeholder for it to not show undefined
         avatar: "Alien",
-        world: identity
+        world: identifier
       };
     });
 
@@ -67,9 +69,12 @@ io.on('connection', function (socket) {
 
       var imageradius = 16; //Move this to a better location later?
 
-      if (worldchange === 1) {
+      if (worldchange == 1) {
+
         var player = worldoneplayer[socket.id] || {}; //Don't know what this does??
-        
+        if (player.x == 1234567) {
+          player.x = 180;
+        }
         if (data.left && player.x > 0 + imageradius) {
           player.x -= 3;
         }
@@ -83,15 +88,27 @@ io.on('connection', function (socket) {
           player.y += 3;
         }
         player.world = 1;
-        if (data.interact && player.x > 172 && player.x < 226 & player.y > 234 && player.y < 336) { //press e
-          player.world = 2;
-          socket.join('worldtwo');
-          socket.leave('worldone');
-          var worldchange = 2;
+        if (data.interact && player.x > 172 && player.x < 226 && player.y > 234 && player.y < 336) { //press e
+            player.x = 1234567;
+            socket.join('worldtwo');
+            socket.leave('worldone');
+            return worldchange = 2;
+          }
+        /*function door (doorleftx, doorrightx, doortopy, doorbottomy, socketjoin, socketleave, worldto){
+          if (data.interact && player.x > doorleftx && player.x < doorrightx && player.y > doortopy && player.y < doorbottomy) { //press e
+            player.x = 1234567;
+            socket.join(socketjoin);
+            socket.leave(socketleave);
+            return worldchange = worldto;
+          }
         }
+        door(172, 226, 234, 336, 'worldtwo', 'worldone', 2);*/
       }
-      if (worldchange === 2) {
+      if (worldchange == 2) {
         player = worldtwoplayer[socket.id] || {}; //Don't know what this does??
+        if (player.x == 1234567) {
+          player.x = 520;
+        }
         if (data.left && player.x > 0 + imageradius) {
           player.x -= 3;
         }
@@ -105,18 +122,29 @@ io.on('connection', function (socket) {
           player.y += 3;
         }
         player.world = 2;
-        if (data.tester && player.x > 490 && player.x < 574 & player.y > 300 && player.y < 400) { //press q
-          player.world = 1;
+        if (data.interact && player.x > 490 && player.x < 574 && player.y > 300 && player.y < 400) { //press q
+          player.x = 1234567;
           socket.join('worldone');
           socket.leave('worldtwo');
-          var worldchange = 1;
+          worldchange = 1;
         }
+        /*function door (doorleftx, doorrightx, doortopy, doorbottomy, socketjoin, socketleave, worldto){
+          if (data.interact && player.x > doorleftx && player.x < doorrightx & player.y > doortopy && player.y < doorbottomy) { //press e
+            player.x = 1234567;
+            socket.join(socketjoin);
+            socket.leave(socketleave);
+            worldchange = worldto;
+          }
+        }
+        door(490, 574, 300, 400, 'worldone', 'worldtwo', 1);*/
       }
 
     });
   }
-  createplayers(worldoneplayer, 1);
-  createplayers(worldtwoplayer, 2);
+
+  createplayers(worldoneplayer, 1, 400, 300);
+  createplayers(worldtwoplayer, 2, 520, 350);
+
 });
 setInterval(function () {  //send players every 60sec
   //io.sockets.emit('state', worldoneplayer);

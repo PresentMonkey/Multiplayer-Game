@@ -69,7 +69,7 @@ export class Game {
           console.log('break');
           context.textAlign = "center";
           console.log(player.world);
-          /*
+          
           if (player.world === 1) {
             context.font = "10px Arial";
             context.fillText("Press E", 197, 210);
@@ -82,7 +82,7 @@ export class Game {
             context.font = "20px Arial";
             context.fillText("WORLD 2", 400, 320);
           }
-          */
+          
           context.font = "10px Arial";
           context.fillText(player.username, player.x, player.y + imageRadius + 10);
           context.fillText(player.world, player.x, player.y + imageRadius + 20); //Draws username
