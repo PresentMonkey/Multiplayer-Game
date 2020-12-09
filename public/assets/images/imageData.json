@@ -1,25 +1,30 @@
 {
-    "images":{
-        "Alien": {
-            "path": "/public/assets/images/alien/Alien_f0.png"
-        },
-        "Bender":{
-            "path": "/public/assets/images/bender/bender.png"
-        },
-        "Demon":{
-            "path": "/public/assets/images/demon/demon.png"
-        },
-        "Max":{
-            "path": "/public/assets/images/macks/macks.png"
-        },
-        "Berney":{
-            "path": "/public/assets/images/berney/berney.png"
-        },
-        "Squib":{
-            "path": "/public/assets/images/squib/squib.png"
-        },
-        "Maher":{
-            "path": "/public/assets/images/maher/maher.png"
-        }
+  "avatars": {
+    "Alien": {
+      "path": "/public/assets/images/alien/Alien_f0.png"
+    },
+    "Bender": {
+      "path": "/public/assets/images/bender/bender.png"
+    },
+    "Demon": {
+      "path": "/public/assets/images/demon/demon.png"
+    },
+    "Max": {
+      "path": "/public/assets/images/macks/macks.png"
+    },
+    "Berney": {
+      "path": "/public/assets/images/berney/berney.png"
+    },
+    "Squib": {
+      "path": "/public/assets/images/squib/squib.png"
+    },
+    "Maher": {
+      "path": "/public/assets/images/maher/maher.png"
     }
+  },
+  "backgrounds":{
+    "fb1":{
+      "path": "/public/assets/images/fb1.png"
+    }
+  }
 }

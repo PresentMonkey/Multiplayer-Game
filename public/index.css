@@ -12,9 +12,17 @@
     display: block;
     width: 1280px;
     height: 720px;
-    border: 5px solid black;
+    border: 1px solid black;
     background-image: url("assets/images/fb.png");
+    background-size: 100% 100%;
     background-color: white;
+}
+
+#gameCanvas{
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 body {
   background: linear-gradient(rgb(181,255, 174),gray);
@@ -24,4 +32,11 @@ form.center {
   border: 1px solid white;
   padding: 12px;
   margin: auto;
+}
+h1{
+  text-align: center;
+  margin-bottom: 0px;
+}
+h5{
+  text-align: center;     
 }

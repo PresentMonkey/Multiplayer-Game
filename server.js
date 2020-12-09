@@ -41,9 +41,12 @@ io.on('connection', function (socket) {
       worldplayer[socket.id] = { //When a new player connects, thier socket id will be used as a player ID and placed in the global player object with some predetermined protoype
         x: startingx, //400,
         y: startingy, //300,
+        x_velo: false,
+        y_velo: false,
         username: " ", //placeholder for it to not show undefined
         avatar: "Alien",
-        world: identifier
+        world: identifier,
+        jumping: false
       };
     });
 
@@ -68,27 +71,27 @@ io.on('connection', function (socket) {
 
 
       var imageradius = 16; //Move this to a better location later?
-
+      var playerspeed = 2;
       if (worldchange == 1) {
-        
+
         var player = worldoneplayer[socket.id] || {}; //Don't know what this does??
-        if (player.x == 1234567){
-          player.x = 180;
+        if (player.x == 1234567) {
+          player.x = 227;
         }
         if (data.left && player.x > 0 + imageradius) {
-          player.x -= 3;
+          player.x -= playerspeed;
         }
         if (data.up && player.y > 0 + imageradius) {
-          player.y -= 3;
+          player.y -= playerspeed;
         }
         if (data.right && player.x < 1920 - imageradius) {
-          player.x += 3;
+          player.x += playerspeed;
         }
         if (data.down && player.y < 1080 - imageradius) {
-          player.y += 3;
+          player.y += playerspeed;
         }
         player.world = 1;
-        if (data.interact && player.x > 172 && player.x < 226 & player.y > 234 && player.y < 336) { //press e
+        if (data.interact && player.x > 172 && player.x < 226 & player.y > 234 && player.y < 336 && player.world == 1) { //press e
           player.x = 1234567;
           socket.join('worldtwo');
           socket.leave('worldone');
@@ -96,24 +99,44 @@ io.on('connection', function (socket) {
         }
       }
       if (worldchange == 2) {
-        player = worldtwoplayer[socket.id] || {}; //Don't know what this does??
-        if (player.x == 1234567){
+        player = worldtwoplayer[socket.id] || {}; //Don't know what this does?
+        if (player.x == 1234567) {
           player.x = 520;
         }
-        if (data.left && player.x > 0 + imageradius) {
-          player.x -= 3;
+        if (data.up && player.jumping == false) {
+          player.y_velo -= 15;
+          player.jumping = true;
         }
-        if (data.up && player.y > 0 + imageradius) {
-          player.y -= 3;
+        if (data.left) {
+          player.x_velo -= .25;
         }
-        if (data.right && player.x < 1920 - imageradius) {
-          player.x += 3;
+        if (data.right) {
+          player.x_velo += .25;
         }
-        if (data.down && player.y < 1080 - imageradius) {
-          player.y += 3;
+        player.y_velo += .3;
+        player.x += player.x_velo;
+        player.y += player.y_velo;
+        player.x_velo *= 0.9;
+        player.y_velo *= 0.9;
+
+        if (player.y > 511) {
+          player.jumping = false;
+          player.y = 511;
+          player.y_velocity = 0;
+        }
+        if(data.up == false && player.y > 440 && player.y <= 450 && player.x > 100 && player.x < 300){
+          player.jumping = false;
+          player.y = 440;
+          player.y_velocity = 0;
+        }
+        if(player.x < 0){
+          player.x = 800;
+        }
+        if(player.x > 800 && player.x <= 2000){
+          player.x = 0;
         }
         player.world = 2;
-        if (data.tester && player.x > 490 && player.x < 574 & player.y > 300 && player.y < 400) { //press q
+        if (data.interact && player.x > 418 && player.x < 502 & player.y > 406 && player.y < 530 && player.world == 2) { //press e
           player.x = 1234567;
           socket.join('worldone');
           socket.leave('worldtwo');
@@ -125,7 +148,7 @@ io.on('connection', function (socket) {
   }
 
   createplayers(worldoneplayer, 1, 400, 300);
-  createplayers(worldtwoplayer, 2, 520, 350);
+  createplayers(worldtwoplayer, 2, 530, 510);
 
 });
 setInterval(function () {  //send players every 60sec

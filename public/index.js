@@ -12,7 +12,8 @@ window.onload = function () {
   var dropdown = document.getElementById("avatarSelect")
 
   game.getJSON().then(data => {
-    for (var avatar in data) {
+    let d = data.avatars;
+    for (var avatar in d) {
       let option = document.createElement("option");
       option.text = avatar;
       option.value = avatar;

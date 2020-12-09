@@ -17,8 +17,7 @@ export class Game {
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       let json = await response.json();
-      let images = json.images
-      return Promise.resolve(images);
+      return Promise.resolve(json);
     }
   }
 
@@ -29,12 +28,13 @@ export class Game {
       throw new Error(`HTTP error! Status: ${response.status}`);
     } else {
       let json = await response.json();
-      let images = json.images
-      for (var avatar in images) {
-        images[avatar].imageObject = new Image();
-        images[avatar].imageObject.src = images[avatar].path;
+      for(var imageType in json){
+        for(var image in json[imageType]){
+          json[imageType][image].imageObject = new Image();
+          json[imageType][image].imageObject.src = json[imageType][image].path;
+        }
       }
-      return Promise.resolve(images);
+      return Promise.resolve(json);
     }
 
   }
@@ -58,40 +58,39 @@ export class Game {
     });*/
     this.socket.on('state', function (playerz) { //Run everytime a state object is recived from server
       if (imageIsLoaded) {
-        console.log(playerz);
         context.clearRect(0, 0, 800, 600); //Clear canvas
-
         context.fillStyle = 'black';
-        
         for (var id in playerz) { //Move through every player object in players object
           var player = playerz[id];
-          console.log(playerz);
-          console.log('break');
+          var p = 0;
           context.textAlign = "center";
-          console.log(player.world);
-          
+          console.log(playerz);
           if (player.world === 1) {
+            
             context.font = "10px Arial";
-            context.fillText("Press E", 197, 210);
-            context.font = "20px Arial";
-            context.fillText("WORLD 1", 400, 320);
+            context.fillText("Press E", 200, 235);
           }
           if (player.world === 2){
+            context.globalCompositeOperation = "destination-over";
+            context.beginPath();
+            context.fillStyle = "blue";
+            context.fillRect(100, 455, 200, 1);
+            context.fillStyle = "black";
+            context.drawImage(images.backgrounds.fb1.imageObject, 0, 0);
+            context.beginPath();
+            context.globalCompositeOperation = "source-over";
             context.font = "10px Arial";
-            context.fillText("Press Q", 525, 275);
-            context.font = "20px Arial";
-            context.fillText("WORLD 2", 400, 320);
+            context.fillText("Press E", 525, 450);
           }
           
           context.font = "10px Arial";
           context.fillText(player.username, player.x, player.y + imageRadius + 10);
-          context.fillText(player.world, player.x, player.y + imageRadius + 20); //Draws username
-          context.drawImage(images[player.avatar].imageObject, player.x - imageRadius, player.y - imageRadius); //Draws image
+          context.drawImage(images.avatars[player.avatar].imageObject, player.x - imageRadius, player.y - imageRadius); //Draws image
 
-          //context.beginPath();  //Legacy code to draw dot instead of image
-          //context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
-          //context.fillStyle = "#FFFF00";
-          //context.fill();
+          /*context.beginPath();  //Legacy code to draw dot instead of image
+          context.arc(player.x, player.y, 2, 0, 2 * Math.PI);
+          context.fillStyle = "#FFFF00";
+          context.fill();*/
         }
       }
     });
