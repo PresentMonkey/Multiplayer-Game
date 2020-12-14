@@ -1,8 +1,10 @@
+import {ImageClass} from '/public/modules/image.js';
+
 export class Drawing{
     /**
      * Drawing class contructor
      * @param {CanvasRenderingContext2D} context The canvas context to draw to
-     * @param {Object} images The json with image data  
+     * @param {ImageClass} images The image class
      */
     constructor(context, images){
         this.context = context;
@@ -19,22 +21,47 @@ export class Drawing{
      * @return {Drawing}
      */
     static create(canvas){
-        let jsonPath = '/public/assets/images/imageData.json'
         const context = canvas.getContext('2d');
-        var images = {};
-        fetch(jsonPath).then(data =>{
-            images = data;
-            for(let character in images.characters){
-                let path = images.characters[character].path;
-                images.characters[character] = new Image();
-                images.characters[character].src = path;
-            }
-        }).catch(e => {
-            console.error('Error proccessing images '+ e);
-        });
-        return new Drawing(context, images);
+        context.font = '10px Arial';
+        context.textAlign = 'center';
+        context.fillStyle = 'black';
+        const imageClass = ImageClass.create();
+        return new Drawing(context, imageClass);
     }
-    drawPlayers(){
-        
+    /**
+     * Method to draw players 
+     * @param {Object} players Players object
+     */
+    drawPlayers(players){
+        for(let id in players){
+            let player = players[id];
+            this.context.drawImage(this.images.getAvatar(player.avatar), player.x, player.y);
+        }
+    }
+    /**
+     * Method to draw username
+     * @param {Object} players
+     */
+    drawUsername(players){
+        for(let id in players){
+            let player = players[id];
+            let context = this.context;
+                context.fillText(player.username, player.x, player.y + 10);
+        }
+    }
+    /**
+     * Method to clear the canvas
+     */
+    clear(){
+        this.context.clearRect(0,0, this.width, this.height);
+    }
+    /**
+     * Method to update everything
+     * @param {Object} players
+     */
+    update(players){
+        this.clear();
+        this.drawPlayers(players);
+        this.drawUsername(players);
     }
 }

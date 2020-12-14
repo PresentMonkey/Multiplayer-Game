@@ -34,6 +34,7 @@ io.on('connection', function(socket){
 			username: ' ', //placeholder for it to not show undefined
 			avatar: 'billy',
 		};
+		console.log('new player');
 	});
 	socket.on('username', (data, callback)=> { //On username websocket sent add thier username to their player object
 		if(data.length > 9){
