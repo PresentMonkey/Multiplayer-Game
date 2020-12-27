@@ -11,7 +11,7 @@ export class docHandler {
           alert("Username too booty");
         }
         if (username === 'Matt') {
-            alert("If your name is Matt you must be a gay dude.");
+            alert("If your name is Matt you must be a super dope cool dude.");
         }
       });
     });

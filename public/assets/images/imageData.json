@@ -12,14 +12,14 @@
     "Max": {
       "path": "/public/assets/images/macks/macks.png"
     },
+    "Maxcrab":{
+      "path": "/public/assets/images/mackscrab/mackscrab.png"
+    },
     "Berney": {
       "path": "/public/assets/images/berney/berney.png"
     },
     "Squib": {
       "path": "/public/assets/images/squib/squib.png"
-    },
-    "Maher": {
-      "path": "/public/assets/images/maher/maher.png"
     }
   },
   "backgrounds":{

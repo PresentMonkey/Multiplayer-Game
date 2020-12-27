@@ -5,10 +5,12 @@ import { docHandler } from "./modules/docHandler.js"
 var socket = io.connect();
 socket.emit('new player'); //on new connection send a new player "ping" to server
 
-var game = new Game(socket, document.getElementById('canvas'), 600, 800, "/public/assets/images/imageData.json", 16);
+var game = new Game(socket, document.getElementById('canvas'), 720, 1280, "/public/assets/images/imageData.json", 16);
+
 var docsHandler = new docHandler(socket);
 
 window.onload = function () {
+  window.addEventListener('resize', game.update, false);
   var dropdown = document.getElementById("avatarSelect")
 
   game.getJSON().then(data => {
@@ -78,7 +80,6 @@ document.getElementById("gameCanvas").addEventListener('keyup', function (event)
       break; 
   }
 });
-
 
 game.update();
 docsHandler.callbackHolder();
