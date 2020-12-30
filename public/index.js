@@ -1,6 +1,7 @@
-import { Game } from "./modules/game.js";
-import { docHandler } from "./modules/docHandler.js"
 
+
+import { docHandler } from "./modules/docHandler.js"
+import { Game } from "./modules/game.js";
 
 var socket = io.connect();
 socket.emit('new player'); //on new connection send a new player "ping" to server
@@ -32,9 +33,12 @@ var movement = { //object to hold movement requests
   interact: false,
 };
 
+
 setInterval(function () { //60 times a second send movement requests to server
   socket.emit('movement', movement);
 }, 1000 / 60);
+
+
 
 document.getElementById("gameCanvas").addEventListener('keydown', function (event) {  //function to handle keypresses
   switch (event.keyCode) {

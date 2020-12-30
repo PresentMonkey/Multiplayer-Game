@@ -172,12 +172,6 @@ io.on('connection', function (socket) {
           player.y = 440;
           player.y_velo = 0;
         }
-        if (player.x < 0) {
-          player.x = 1280;
-        }
-        if (player.x > 1280 && player.x <= 2000) {
-          player.x = 0;
-        }
         player.world = 2;
         if (data.interact && player.x > 418 && player.x < 502 && player.y > 406 && player.y < 530 && player.world == 2) { //press e
           player.x = 1234567;
