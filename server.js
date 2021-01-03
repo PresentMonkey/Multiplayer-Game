@@ -82,7 +82,7 @@ io.on('connection', function (socket) {
     });
     socket.on('movement', function (data) { //function to handle player movement
 
-      
+
       var imageradius = 16; //Move this to a better location later?
       var playerspeed = 2;
       if (worldchange == 1) {
@@ -103,7 +103,7 @@ io.on('connection', function (socket) {
           player.y += playerspeed;
         }
         player.world = 1;
-        if (data.interact && player.x > 272 && player.x < 364 & player.y > 292 && player.y < 392 && player.world == 1) { //press e
+        if (data.interact && player.x > 272 && player.x < 364 & player.y > 292 && player.y < 392 && player.world == 1 && player.username != ' ') { //press e
           player.x = 1234567;
           socket.join('worldtwo');
           socket.leave('worldone');
@@ -134,7 +134,7 @@ io.on('connection', function (socket) {
           player.avatar = "Max";
         }
         if (data.left && player.jumping == false) {
-          player.x_velo -= .25; //.25
+          player.x_velo -= .5; //.25
         }
         if (player.jumping && data.left) {
           //player.x_velo_1 = 0.0000005 * Math.pow(player.x_velo, 3) + (player.x_velo)/.7 - .25; 
@@ -143,14 +143,14 @@ io.on('connection', function (socket) {
         }
 
         if (data.right && player.jumping == false) {
-          player.x_velo += .25;
+          player.x_velo += .5;
         }
         if (player.jumping && data.right) {
           //player.x_velo_1 = 0.0000005 * Math.pow(player.x_velo, 3) + (player.x_velo)/.7; //player.x_velo -= .005 * Math.pow(.25, .2);
           //player.x_velo = Math.pow(player.x_velo_1, -1);
           player.x_velo += .005 * Math.pow(.25, .2);
         }
-        
+
         player.y_velo += .3; //gravity
         player.x += player.x_velo;
         player.y += player.y_velo;
@@ -162,18 +162,13 @@ io.on('connection', function (socket) {
           player.x_velo *= 1;
         }
 
-        if (player.y > 511) {
+        if (player.y > 511 && player.y < 515 && player.x < 5120 && player.x > 0) {
           player.jumping = false;
           player.y = 511;
           player.y_velo = 0;
         }
-        if (data.up == false && player.y > 440 && player.y <= 450 && player.x > 100 && player.x < 300) {
-          player.jumping = false;
-          player.y = 440;
-          player.y_velo = 0;
-        }
         player.world = 2;
-        if (data.interact && player.x > 418 && player.x < 502 && player.y > 406 && player.y < 530 && player.world == 2) { //press e
+        if (data.interact && player.x > 1018 && player.x < 1102 && player.y > 406 && player.y < 530 && player.world == 2) { //press e
           player.x = 1234567;
           socket.join('worldone');
           socket.leave('worldtwo');
@@ -204,7 +199,7 @@ io.on('connection', function (socket) {
   }
 
   createplayers(worldoneplayer, 1, 400, 300);
-  createplayers(worldtwoplayer, 2, 530, 510);
+  createplayers(worldtwoplayer, 2, 650, 510);
   //createplayers(worldthreeplayer, 3, 530, 510);
 
 });

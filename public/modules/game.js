@@ -129,42 +129,6 @@ export class Game {
           break;
       }
     });
-    if (movement.up && camera.jumping == false) {
-      camera.y_velo -= 3;
-      if (camera.y_velo < -9) {
-        camera.jumping = true;
-      }
-    }
-    if (movement.left && camera.jumping == false) {
-      camera.x_velo -= .25;
-    }
-    if (camera.jumping && movement.left) {
-      camera.x_velo -= .005 * Math.pow(.25, .2);
-    }
-
-    if (movement.right && camera.jumping == false) {
-      camera.x_velo += .25;
-    }
-    if (camera.jumping && movement.right) {
-      camera.x_velo += .005 * Math.pow(.25, .2);
-    }
-
-    camera.y_velo += .3; //gravity
-    camera.x += camera.x_velo;
-    camera.y += camera.y_velo;
-    camera.y_velo *= 0.9; //gravity
-    if (camera.jumping == false) { //friction
-      camera.x_velo *= 0.9;
-    }
-    if (camera.jumping == true) { //friction
-      camera.x_velo *= 1;
-    }
-
-    if (camera.y > 511) {
-      camera.jumping = false;
-      camera.y = 511;
-      camera.y_velo = 0;
-    }
 
     document.getElementById("usernameInputButton").addEventListener("click", function () { //When username submit button is pressed send username to server: bug to fix: make enter on form work as well
       camera.username = document.getElementById("usernameInputForm").value;
@@ -180,76 +144,42 @@ export class Game {
           var player = playerz[id];
           var p = 0;
           context.textAlign = "center";
-
+          console.log(player);
           if (player.world === 1) {
             context.font = "10px Arial";
-            context.fillText("Press E", 320, 280);
+            context.fillText("Press E (MUST HAVE A USERNAME)", 320, 280);
+            context.fillRect(272, 292, 92, 104);
             context.font = "10px Arial";
             context.fillText(player.username, player.x, player.y + imageRadius + 10);
             context.drawImage(images.avatars[player.avatar].imageObject, player.x - imageRadius, player.y - imageRadius); //Draws image
           }
 
           if (player.world === 2) {
-            if (movement.up && camera.jumping == false) {
-              camera.y_velo -= 3;
-              if (camera.y_velo < -9) {
-                camera.jumping = true;
-              }
-            }
-            if (movement.left && camera.jumping == false) {
-              camera.x_velo -= .25;
-            }
-            if (camera.jumping && movement.left) {
-              camera.x_velo -= .005 * Math.pow(.25, .2);
-            }
-
-            if (movement.right && camera.jumping == false) {
-              camera.x_velo += .25;
-            }
-            if (camera.jumping && movement.right) {
-              camera.x_velo += .005 * Math.pow(.25, .2);
-            }
-
-            camera.y_velo += .3; //gravity
-            camera.x += camera.x_velo;
-            camera.y += camera.y_velo;
-            camera.y_velo *= 0.9; //gravity
-            if (camera.jumping == false) { //friction
-              camera.x_velo *= 0.9;
-            }
-            if (camera.jumping == true) { //friction
-              camera.x_velo *= 1;
-            }
-
-            if (camera.y > 511) {
-              camera.jumping = false;
-              camera.y = 511;
-              camera.y_velo = 0;
-            }
-            console.log(movement);
-            console.log(camera);
-            context.globalCompositeOperation = "destination-over";
             context.beginPath();
+            context.globalCompositeOperation = "destination-over";
             /*context.fillStyle = "blue";
-            context.fillRect(100, 455, 200, 1);
-            context.fillStyle = "grey";
-            context.fillRect(418, 406, 84, 124);*/
+            context.fillRect(100, 455, 200, 1);*/
             context.fillStyle = "black";
-            context.fillRect(0, 526, 1280, 526);
-            context.drawImage(images.backgrounds.fb1.imageObject, camera.x, 0, 1280, 720, 0, 0, 1280, 720);
+            //context.fillRect(640 + 1018 - (camera.x), 406, 84, 124);
+            context.drawImage(images.backgrounds.fb1.imageObject, camera.x - 640, 0, 1280, 720, 0, 0, 1280, 720);
             context.beginPath();
             context.globalCompositeOperation = "source-over";
             context.font = "10px Arial";
-            context.fillText("Press E", 640 - (camera.x), 450);
+            context.fillText("Press E", 640 + 990 - (camera.x), 450);
             context.font = "10px Arial";
             if (player.username != camera.username) {
-              context.fillText(player.username, player.x, player.y + imageRadius + 10);
-              context.drawImage(images.avatars[player.avatar].imageObject, player.x, player.y - imageRadius); //Draws image
+              context.fillText(player.username, player.x - camera.x + 656, player.y + imageRadius + 10);
+              context.drawImage(images.avatars[player.avatar].imageObject, player.x - camera.x + 640, player.y - imageRadius); //Draws image
             }
             if(player.username == camera.username){
-              context.fillText(player.username, 640, player.y + imageRadius + 10);
+              context.globalCompositeOperation = "source-over";
+              context.fillText(player.username, 656, player.y + imageRadius + 10);
+              
+              context.drawImage(images.avatars[player.avatar].imageObject, 640, player.y - imageRadius)
+              camera.x = player.x;
+              camera.y = player.y;
             }
-            context.drawImage(images.avatars["Alien"].imageObject, 640, camera.y - imageRadius)
+            
 
           }
           /*if(player.world ===3){
