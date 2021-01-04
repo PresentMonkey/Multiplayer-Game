@@ -77,74 +77,37 @@ export class Game {
       jumping: false,
       colliding: false
     };
-    var movement = { //object to hold movement requests
-      up: false,
-      down: false,
-      left: false,
-      right: false,
-      interact: false
-    };
-    document.getElementById("gameCanvas").addEventListener('keydown', function (event) {  //function to handle keypresses
-      switch (event.keyCode) {
-        case 65: //A
-          movement.left = true;
-          break;
-        case 87: //w
-          movement.up = true;
-          break;
-        case 68: //d
-          movement.right = true;
-          break;
-        case 83: //s
-          movement.down = true;
-          break;
-        case 69:
-          movement.interact = true;
-          break;
-        case 81:
-          movement.tester = true;
-          break;
 
-      }
-    }, true);
-    document.getElementById("gameCanvas").addEventListener('keyup', function (event) { //function to handle key unpresses
-      switch (event.keyCode) {
-        case 65: //A
-          movement.left = false;
-          break;
-        case 87: //w
-          movement.up = false;
-          break;
-        case 68: //d
-          movement.right = false;
-          break;
-        case 83: //s
-          movement.down = false;
-          break;
-        case 69:
-          movement.interact = false;
-          break;
-        case 81:
-          movement.tester = false;
-          break;
-      }
-    });
+
+    var map = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var mapIndex = 0;
+    var block_w = 80;
+    var block_h = 80;
+
+
 
     document.getElementById("usernameInputButton").addEventListener("click", function () { //When username submit button is pressed send username to server: bug to fix: make enter on form work as well
       camera.username = document.getElementById("usernameInputForm").value;
     });
 
-
-
     this.socket.on('state', function (playerz) { //Run everytime a state object is recived from server
       if (imageIsLoaded) {
         context.clearRect(0, 0, 1280, 720); //Clear canvas
         context.fillStyle = 'black';
+
+
         for (var id in playerz) { //Move through every player object in players object
           var player = playerz[id];
           var p = 0;
           context.textAlign = "center";
-          console.log(player);
           if (player.world === 1) {
             context.font = "10px Arial";
             context.fillText("Press E (MUST HAVE A USERNAME)", 320, 280);
@@ -161,7 +124,9 @@ export class Game {
             context.fillRect(100, 455, 200, 1);*/
             context.fillStyle = "black";
             //context.fillRect(640 + 1018 - (camera.x), 406, 84, 124);
+
             context.drawImage(images.backgrounds.fb1.imageObject, camera.x - 640, 0, 1280, 720, 0, 0, 1280, 720);
+
             context.beginPath();
             context.globalCompositeOperation = "source-over";
             context.font = "10px Arial";
@@ -171,17 +136,37 @@ export class Game {
               context.fillText(player.username, player.x - camera.x + 656, player.y + imageRadius + 10);
               context.drawImage(images.avatars[player.avatar].imageObject, player.x - camera.x + 640, player.y - imageRadius); //Draws image
             }
-            if(player.username == camera.username){
+            if (player.username == camera.username) {
               context.globalCompositeOperation = "source-over";
               context.fillText(player.username, 656, player.y + imageRadius + 10);
-              
+
               context.drawImage(images.avatars[player.avatar].imageObject, 640, player.y - imageRadius)
               camera.x = player.x;
               camera.y = player.y;
             }
-            
+
 
           }
+          /*
+          for(var why = 0; why < 720; why++){
+          for(var ecks = 0; ecks < 1280; ecks++, mapIndex++){
+            console.log("in tile loop");
+            var tile_x = ecks * block_w;
+            var tile_y = why * block_h;
+
+            var tile_type = map[mapIndex];
+
+            context.globalCompositeOperation = "destination-over";
+
+            if(tile_type == 1){
+              context.drawImage(images.tiles.dirt.imageObject, tile_x, tile_y,)
+            }
+            if(tile_type == 0){
+              context.drawImage(images.tiles.sky.imageObject, tile_x, tile_y,)
+            }
+
+          }
+        }
           /*if(player.world ===3){
             context.drawImage(images.backgrounds.fb1.imageObject, 0, 0);
             console.log('worldthree');

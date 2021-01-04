@@ -34,9 +34,22 @@ var movement = { //object to hold movement requests
 };
 
 
+/*if (typeof socket.id === 'undefined'){
+  var repeat = setInterval(function(){
+      clientid = socket.id;
+      console.log("doing"); 
+      console.log(clientid);
+  }, 1000);
+}
+else{
+  clearInterval(repeat);
+}*/
+
+
 setInterval(function () { //60 times a second send movement requests to server
   socket.emit('movement', movement);
 }, 1000 / 60);
+
 
 
 
@@ -59,7 +72,7 @@ document.getElementById("gameCanvas").addEventListener('keydown', function (even
       break;
     case 81:
       movement.tester = true;
-      break; 
+      break;
   }
 }, true);
 document.getElementById("gameCanvas").addEventListener('keyup', function (event) { //function to handle key unpresses
@@ -78,10 +91,10 @@ document.getElementById("gameCanvas").addEventListener('keyup', function (event)
       break;
     case 69:
       movement.interact = false;
-      break;  
+      break;
     case 81:
       movement.tester = false;
-      break; 
+      break;
   }
 });
 

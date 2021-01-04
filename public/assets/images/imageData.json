@@ -1,30 +1,38 @@
 {
   "avatars": {
     "Alien": {
-      "path": "/public/assets/images/alien/Alien_f0.png"
+      "path": "/public/assets/images/avatars/alien/Alien_f0.png"
     },
     "Bender": {
-      "path": "/public/assets/images/bender/bender.png"
+      "path": "/public/assets/images/avatars/bender/bender.png"
     },
     "Demon": {
-      "path": "/public/assets/images/demon/demon.png"
+      "path": "/public/assets/images/avatars/demon/demon.png"
     },
     "Max": {
-      "path": "/public/assets/images/macks/macks.png"
+      "path": "/public/assets/images/avatars/macks/macks.png"
     },
     "Maxcrab":{
-      "path": "/public/assets/images/mackscrab/mackscrab.png"
+      "path": "/public/assets/images/avatars/mackscrab/mackscrab.png"
     },
     "Berney": {
-      "path": "/public/assets/images/berney/berney.png"
+      "path": "/public/assets/images/avatars/berney/berney.png"
     },
     "Squib": {
-      "path": "/public/assets/images/squib/squib.png"
+      "path": "/public/assets/images/avatars/squib/squib.png"
     }
   },
   "backgrounds":{
     "fb1":{
-      "path": "/public/assets/images/fb1.png"
+      "path": "/public/assets/images/backgrounds/fb1.png"
+    }
+  },
+  "tiles":{
+    "dirt":{
+      "path": "/public/assets/images/tiles/dirt.png"
+    },
+    "sky":{
+      "path": "/public/assets/images/tiles/sky.png"
     }
   }
 }
